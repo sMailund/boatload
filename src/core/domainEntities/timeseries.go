@@ -1,6 +1,6 @@
-package main
+package domainEntities
 
-type Timeseries struct {
+type TimeSeries struct {
 	Tstype string
 	Tseries []SeriesEntry
 }
