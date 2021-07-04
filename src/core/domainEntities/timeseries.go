@@ -6,18 +6,18 @@ type TimeSeries struct {
 }
 
 type seriesEntry struct {
-	Header       seriesHeader
-	Observations []seriesObservation
+	Header       seriesHeader        `json:"header"`
+	Observations []seriesObservation `json:"observations"`
 }
 
 type seriesHeader struct {
-	Id    headerId
-	Extra headerExtra
+	Id    headerId    `json:"id"`
+	Extra headerExtra `json:"extra"`
 }
 
 type headerId struct {
-	GliderId  string
-	Parameter string
+	GliderId  string `json:"gliderID"`
+	Parameter string `json:"parameter"`
 }
 
 type headerExtra struct {

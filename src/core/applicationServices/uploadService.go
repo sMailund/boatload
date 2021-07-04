@@ -5,11 +5,17 @@ import (
 	"github.com/sMailund/boatload/src/core/domainServices"
 )
 
-type uploadService struct {
+type UploadService struct {
 	metService domainServices.IMetService
 }
 
-func (us uploadService) UploadTimeSeries(series domainEntities.TimeSeries) error {
+func CreateUploadService(metService domainServices.IMetService) *UploadService {
+	s := new(UploadService)
+	s.metService = metService
+	return s
+}
+
+func (us UploadService) UploadTimeSeries(series domainEntities.TimeSeries) error {
 	err := us.metService.SubmitData(series)
 	return err
 }
