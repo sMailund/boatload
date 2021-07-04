@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/sMailund/boatload/src/core/applicationServices"
 	"github.com/sMailund/boatload/src/core/domainEntities"
-	"github.com/sMailund/boatload/src/external/api"
+	"github.com/sMailund/boatload/src/external/http/api"
 	"net/http"
 	"net/http/httptest"
 	"testing"
