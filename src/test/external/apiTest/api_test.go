@@ -51,7 +51,6 @@ func TestShouldOnlyAcceptPostMethod(t *testing.T) {
 	}
 	api.UploadService = createUploadStub(submitMethod)
 
-
 	for _, method := range methods {
 		res, req := createResponseAndRequestStubsWithMethod(testPayload, method)
 
@@ -95,7 +94,6 @@ func createResponseAndRequestStubsWithMethod(payload string, method string) (*ht
 	req := httptest.NewRequest(method, api.UploadRoute, bytes.NewReader(body))
 	return res, req
 }
-
 
 const testPayload = `{
   "tstype": "test",
