@@ -1,45 +1,44 @@
 package domainEntities
 
 type TimeSeries struct {
-	Tstype string
-	Tseries []SeriesEntry
+	TimeSeriesType string        `json:"tstype"`
+	TimeSeries     []seriesEntry `json:"tseries"`
 }
 
-type SeriesEntry struct {
-	Header SeriesHeader
-	Observations []SeriesObservation
+type seriesEntry struct {
+	Header       seriesHeader
+	Observations []seriesObservation
 }
 
-type SeriesHeader struct {
-	Id HeaderId
-	Extra HeaderExtra
+type seriesHeader struct {
+	Id    headerId
+	Extra headerExtra
 }
 
-type HeaderId struct {
-	GliderId string
+type headerId struct {
+	GliderId  string
 	Parameter string
 }
 
-type HeaderExtra struct {
+type headerExtra struct {
 	Source string
-	Name string
+	Name   string
 }
 
-type SeriesObservation struct {
+type seriesObservation struct {
 	Time string // TODO: switch to date datatype??
-	Body ObservationBody
+	Body observationBody
 }
 
-type ObservationBody struct {
-	Pos ObservationPosition
-	Value string
+type observationBody struct {
+	Pos    observationPosition
+	Value  string
 	QcFlag string
 }
 
-type ObservationPosition struct {
-	Lon string // TODO figure out correct datatype
-	Lat string
-	Depth string
+type observationPosition struct {
+	Lon    string // TODO figure out correct datatype
+	Lat    string
+	Depth  string
 	QcFlag string
 }
-

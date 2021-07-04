@@ -1,9 +1,9 @@
 package domainServices
 
 import (
-	ent "domainEntities"
+	"github.com/sMailund/boatload/src/core/domainEntities"
 )
 
-type MetService interface {
-	submitData(ent.TimeSeries) error
+type IMetService interface {
+	SubmitData(domainEntities.TimeSeries) error
 }
