@@ -1,0 +1,32 @@
+{
+  "tstype": "test",
+  "tseries": [
+    {
+      "header": {
+        "id": {
+          "gliderID": "testID",
+          "parameter": "testparam"
+        },
+        "extra": {
+          "source": "sadfasdf",
+          "name": "stuff"
+        }
+      },
+      "observations": [
+        {
+          "time": "2020-06-16T06:00:00Z",
+          "body": {
+            "pos": {
+              "lon": "1",
+              "lat": "2",
+              "depth": "3",
+              "qc_flag": "test"
+            },
+            "value": "123",
+            "qc_flag": "test"
+          }
+        }
+      ]
+    }
+  ]
+}

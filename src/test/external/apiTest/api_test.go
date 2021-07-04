@@ -11,6 +11,9 @@ import (
 	"testing"
 )
 
+// TODO fix broken tests
+// TODO make sure all json fields are copied to entity
+
 type metServiceStub struct {
 	submitMethod func() error
 }

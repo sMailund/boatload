@@ -25,7 +25,7 @@ func main() {
 	uploadService := applicationServices.CreateUploadService(metServiceStub{})
 
 	api.RegisterRoutes(*uploadService, mux)
-	frontend.RegisterRoutes(frontend.TextRetriever{}, mux)
+	frontend.RegisterRoutes(frontend.InMemoryHtmlRetriever{}, mux)
 
 	fmt.Printf("serving from %v...\n", port)
 	err := http.ListenAndServe(port, mux)

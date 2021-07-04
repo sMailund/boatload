@@ -4,14 +4,52 @@ type IFrontendRetriever interface {
 	getFrontend() ([]byte, error)
 }
 
-type TextRetriever struct {
-	Message string
+type InMemoryHtmlRetriever struct {}
+
+func (u InMemoryHtmlRetriever) getFrontend() ([]byte, error) {
+	return []byte(uploadPage), nil
 }
 
-func (t TextRetriever) getFrontend() ([]byte, error) {
-	if t.Message == "" {
-		t.Message = "<p>hello, world!</p>"
+const uploadPage = `<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <title>Boatload maritime data uploader</title>
+
+  <script type="text/javascript">
+	function upload() {
+	  let statusElement = document.getElementById("status");
+	  let file = document.getElementById("file").files[0]
+	  let req = new XMLHttpRequest();
+	  let formData = new FormData();
+
+	  formData.append("file", file);                                
+      req.open("POST", '/api/upload');
+      req.send(formData);
+      
+	  statusElement.innerText = "sending..."
+	  
+      req.onreadystatechange = function() {
+  		  if (req.readyState === 4) {
+			  if (req.status === 200) {
+	  				statusElement.innerText = "success"
+			  } else {
+	  				statusElement.innerText = "error: " + req.responseText
+			  }
+    	  }
+  	  }
 	}
-	return []byte(t.Message), nil
-}
+  </script>
+
+</head>
+
+<body>
+<h1>boatload</h1>
+<h2>maritime research data uploader v0.1</h2>
+<input id="file" type="file" />
+<input type = "button" onclick = "upload()" value = "upload">  
+<p id="status"></p>
+</body>
+</html>`
+
 

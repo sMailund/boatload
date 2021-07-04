@@ -30,4 +30,6 @@ func serveFrontend(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}
+	w.Header().Add("Content-Type", "text/html")
+
 }
