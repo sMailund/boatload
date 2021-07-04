@@ -2,6 +2,7 @@ package apiTest
 
 import (
 	"bytes"
+	"errors"
 	"github.com/sMailund/boatload/src/core/applicationServices"
 	"github.com/sMailund/boatload/src/core/domainEntities"
 	"github.com/sMailund/boatload/src/external/api"
@@ -19,16 +20,12 @@ func (ms metServiceStub) SubmitData(_ domainEntities.TimeSeries) error {
 }
 
 func TestShouldMarshallPostBody(t *testing.T) {
-	serviceStub := struct{ metServiceStub }{}
-	serviceStub.submitMethod = func() error {
+	submitMethod := func() error {
 		return nil
 	}
+	api.UploadService = createUploadStub(submitMethod)
 
-	body := []byte(testPayload)
-	api.UploadService = *applicationServices.CreateUploadService(serviceStub)
-
-	req := httptest.NewRequest(http.MethodPost, api.UploadRoute, bytes.NewReader(body))
-	res := httptest.NewRecorder()
+	res, req := createResponseAndRequestStubs(testPayload)
 
 	api.UploadTimeSeries(res, req)
 
@@ -38,8 +35,67 @@ func TestShouldMarshallPostBody(t *testing.T) {
 }
 
 func TestShouldOnlyAcceptPostMethod(t *testing.T) {
+	methods := []string{
+		http.MethodConnect,
+		http.MethodDelete,
+		http.MethodGet,
+		http.MethodHead,
+		http.MethodOptions,
+		http.MethodPatch,
+		http.MethodPut,
+		http.MethodTrace,
+	}
+
+	submitMethod := func() error {
+		return nil
+	}
+	api.UploadService = createUploadStub(submitMethod)
+
+
+	for _, method := range methods {
+		res, req := createResponseAndRequestStubsWithMethod(testPayload, method)
+
+		api.UploadTimeSeries(res, req)
+		if res.Code != http.StatusMethodNotAllowed {
+			t.Errorf("expexted 405 for method %v, got %v: %v\n", method, res.Code, res.Body)
+		}
+	}
 
 }
+
+func TestShouldOnlyRespond500OnMetServiceError(t *testing.T) {
+	submitMethod := func() error {
+		return errors.New("sample error")
+	}
+	api.UploadService = createUploadStub(submitMethod)
+
+	res, req := createResponseAndRequestStubs(testPayload)
+
+	api.UploadTimeSeries(res, req)
+
+	if res.Code != http.StatusInternalServerError {
+		t.Errorf("expexted 500, got %v: %v\n", res.Code, res.Body)
+	}
+}
+
+func createUploadStub(submitMethod func() error) applicationServices.UploadService {
+	serviceStub := struct{ metServiceStub }{}
+	serviceStub.submitMethod = submitMethod
+
+	return *applicationServices.CreateUploadService(serviceStub)
+}
+
+func createResponseAndRequestStubs(payload string) (*httptest.ResponseRecorder, *http.Request) {
+	return createResponseAndRequestStubsWithMethod(payload, http.MethodPost)
+}
+
+func createResponseAndRequestStubsWithMethod(payload string, method string) (*httptest.ResponseRecorder, *http.Request) {
+	body := []byte(payload)
+	res := httptest.NewRecorder()
+	req := httptest.NewRequest(method, api.UploadRoute, bytes.NewReader(body))
+	return res, req
+}
+
 
 const testPayload = `{
   "tstype": "test",
