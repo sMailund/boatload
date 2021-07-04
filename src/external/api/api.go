@@ -18,7 +18,7 @@ func RegisterRoutes(us applicationServices.UploadService, mux *http.ServeMux) {
 
 func UploadTimeSeries(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
-		http.Error(w, "unsupported method", 404)
+		http.Error(w, "unsupported method", http.StatusMethodNotAllowed)
 		return
 	}
 
