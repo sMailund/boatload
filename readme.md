@@ -11,3 +11,8 @@ frontend is served at `/uploader`
 ### deployment environment
 Configure deployment enviroment through the environment variable `BOATLOAD_ENV`.
 Acceptable values are `DEV` or `PROD`, and primarily define how to route outgoing traffic.
+
+## deploy
+This project runs on google app engine.
+
+Deploy: `gcloud app deploy`

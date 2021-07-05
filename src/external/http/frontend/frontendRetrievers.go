@@ -14,7 +14,7 @@ const uploadPage = `<!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
-  <title>Boatload maritime data uploader</title>
+  <title>Boatload maritime meteorological data uploader</title>
 
   <script type="text/javascript">
 	function upload() {
