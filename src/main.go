@@ -20,6 +20,8 @@ func (m metServiceStub) SubmitData(_ domainEntities.TimeSeries) error {
 }
 
 func main() {
+	env := getDeploymentEnvironment()
+
 	mux := http.NewServeMux()
 
 	uploadService := applicationServices.CreateUploadService(metServiceStub{})
@@ -27,7 +29,28 @@ func main() {
 	api.RegisterRoutes(*uploadService, mux)
 	frontend.RegisterRoutes(frontend.InMemoryHtmlRetriever{}, mux)
 
-	fmt.Printf("serving from %v...\n", port)
+	fmt.Printf("running as %v, serving from %v...\n", env, port)
 	err := http.ListenAndServe(port, mux)
 	fmt.Fprintf(os.Stderr, "%v\n", err)
+}
+
+type environment int
+const (
+	DEV = iota
+	PROD
+)
+
+// getDeploymentEnvironment gets the current deployment environment (i.e. dev or prod).
+// Environement is configured through the BOATLOAD_ENV environment variable.
+// Defaults to DEV.
+func getDeploymentEnvironment() environment {
+	switch env := os.Getenv("BOATLOAD_ENV"); env {
+	case "PROD":
+		return PROD
+	case "DEV":
+		return DEV
+	default:
+		fmt.Fprintf(os.Stderr, "WARNING: unrecognized BOATLOAD_ENV: '%v', defaulting to DEV\n", env) // TODO use logger
+		return DEV
+	}
 }
