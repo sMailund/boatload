@@ -4,7 +4,7 @@
 Tool for uploading maritime meteorological research data 
 from research vessels to the `havvarsel-frost.met.no` API.
 
-frontend is served at `/upload`
+frontend is served at `/uploader`
 
 ## configuration
 

@@ -7,11 +7,12 @@ import (
 	"github.com/sMailund/boatload/src/external/havvarsel-frost/metService"
 	"github.com/sMailund/boatload/src/external/http/api"
 	"github.com/sMailund/boatload/src/external/http/frontend"
+	"log"
 	"net/http"
 	"os"
 )
 
-const port = ":3000"
+const defaultPort = "3000"
 
 func main() {
 	env := getDeploymentEnvironment()
@@ -23,9 +24,18 @@ func main() {
 	api.RegisterRoutes(*uploadService, mux)
 	frontend.RegisterRoutes(frontend.InMemoryHtmlRetriever{}, mux)
 
-	fmt.Printf("running as %v, serving from %v...\n", env, port)
-	err := http.ListenAndServe(port, mux)
-	fmt.Fprintf(os.Stderr, "%v\n", err)
+	log.Printf("running as %v...\n", env)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	log.Printf("Listening on port %s", port)
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func getMetService(env environment) domainServices.IMetService {
