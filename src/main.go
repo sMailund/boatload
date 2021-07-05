@@ -12,7 +12,7 @@ import (
 
 const port = ":3000"
 
-type metServiceStub struct {}
+type metServiceStub struct{}
 
 func (m metServiceStub) SubmitData(_ domainEntities.TimeSeries) error {
 	fmt.Fprint(os.Stderr, "WARNING: attempting to communicate with unimplemented metservice")

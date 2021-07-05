@@ -4,7 +4,7 @@ type IFrontendRetriever interface {
 	getFrontend() ([]byte, error)
 }
 
-type InMemoryHtmlRetriever struct {}
+type InMemoryHtmlRetriever struct{}
 
 func (u InMemoryHtmlRetriever) getFrontend() ([]byte, error) {
 	return []byte(uploadPage), nil
@@ -51,5 +51,3 @@ const uploadPage = `<!DOCTYPE html>
 <p id="status"></p>
 </body>
 </html>`
-
-

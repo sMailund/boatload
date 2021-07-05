@@ -21,24 +21,24 @@ type headerId struct {
 }
 
 type headerExtra struct {
-	Source string
-	Name   string
+	Source string `json:"source"`
+	Name   string `json:"name"`
 }
 
 type seriesObservation struct {
-	Time string // TODO: switch to date datatype??
-	Body observationBody
+	Time string          `json:"time"` // TODO: switch to date datatype??
+	Body observationBody `json:"body"`
 }
 
 type observationBody struct {
-	Pos    observationPosition
-	Value  string
-	QcFlag string
+	Pos    observationPosition `json:"pos"`
+	Value  string              `json:"value"`
+	QcFlag string              `json:"qc_flag"`
 }
 
 type observationPosition struct {
-	Lon    string // TODO figure out correct datatype
-	Lat    string
-	Depth  string
-	QcFlag string
+	Lon    string `json:"lon"` // TODO figure out correct datatype
+	Lat    string `json:"lat"`
+	Depth  string `json:"depth"`
+	QcFlag string `json:"qc_flag"`
 }
