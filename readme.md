@@ -1,6 +1,13 @@
 # boatload
-## maritime research data uploader
+> maritime meteorological research data uploader
 
-internal tool for uploading maritime research data.
+Tool for uploading maritime meteorological research data 
+from research vessels to the `havvarsel-frost.met.no` API.
 
 frontend is served at `/upload`
+
+## configuration
+
+### deployment environment
+Configure deployment enviroment through the environment variable `BOATLOAD_ENV`.
+Acceptable values are `DEV` or `PROD`, and primarily define how to route outgoing traffic.
