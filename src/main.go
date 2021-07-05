@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/sMailund/boatload/src/core/applicationServices"
-	"github.com/sMailund/boatload/src/core/domainEntities"
+	"github.com/sMailund/boatload/src/core/domainServices"
+	"github.com/sMailund/boatload/src/external/havvarsel-frost/metService"
 	"github.com/sMailund/boatload/src/external/http/api"
 	"github.com/sMailund/boatload/src/external/http/frontend"
 	"net/http"
@@ -12,20 +13,13 @@ import (
 
 const port = ":3000"
 
-type metServiceStub struct{}
-
-func (m metServiceStub) SubmitData(_ domainEntities.TimeSeries) error {
-	fmt.Fprint(os.Stderr, "WARNING: attempting to communicate with unimplemented metservice")
-	return nil
-}
-
 func main() {
 	env := getDeploymentEnvironment()
+	metServiceImpl := getMetService(env)
+
+	uploadService := applicationServices.CreateUploadService(metServiceImpl)
 
 	mux := http.NewServeMux()
-
-	uploadService := applicationServices.CreateUploadService(metServiceStub{})
-
 	api.RegisterRoutes(*uploadService, mux)
 	frontend.RegisterRoutes(frontend.InMemoryHtmlRetriever{}, mux)
 
@@ -34,11 +28,26 @@ func main() {
 	fmt.Fprintf(os.Stderr, "%v\n", err)
 }
 
+func getMetService(env environment) domainServices.IMetService {
+	switch env {
+	case DEV:
+		return metService.GetDevMetService()
+	case PROD:
+		panic("PROD METSERVICE NOT IMPLEMENTED")
+	}
+	return nil
+}
+
 type environment int
+
 const (
-	DEV = iota
+	DEV environment = iota
 	PROD
 )
+
+func (e environment) String() string {
+	return [...]string{"dev", "prod"}[e]
+}
 
 // getDeploymentEnvironment gets the current deployment environment (i.e. dev or prod).
 // Environement is configured through the BOATLOAD_ENV environment variable.

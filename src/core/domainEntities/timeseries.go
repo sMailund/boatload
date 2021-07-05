@@ -1,5 +1,22 @@
 package domainEntities
 
+// HeaderOnly creates a shallow copy of the time series with only headers (i.e. without observations).
+// This is useful when creating a new timeseries, as observations are not processed by the endpoint.
+func (ts TimeSeries) HeadersOnly() TimeSeries {
+	seriesHeaders := []seriesEntry{}
+	for _, series := range ts.TimeSeries {
+		seriesHeaders = append(seriesHeaders, seriesEntry{
+			Header:       series.Header,
+			Observations: nil,
+		})
+	}
+
+	return TimeSeries{
+		TimeSeriesType: ts.TimeSeriesType,
+		TimeSeries:     seriesHeaders,
+	}
+}
+
 type TimeSeries struct {
 	TimeSeriesType string        `json:"tstype"`
 	TimeSeries     []seriesEntry `json:"tseries"`
