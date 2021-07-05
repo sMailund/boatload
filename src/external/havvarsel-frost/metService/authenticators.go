@@ -15,9 +15,9 @@ func (d devAuthenticator) authenticate(r *http.Request) error {
 	return nil
 }
 
-type havvarselAuthenticator struct {
+type prodAuthenticator struct {
 }
 
-func (h havvarselAuthenticator) authenticate(r *http.Request) error {
+func (h prodAuthenticator) authenticate(r *http.Request) error {
 	panic("implement me")
 }

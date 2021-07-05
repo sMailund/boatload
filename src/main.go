@@ -43,7 +43,7 @@ func getMetService(env environment) domainServices.IMetService {
 	case DEV:
 		return metService.GetDevMetService()
 	case PROD:
-		panic("PROD METSERVICE NOT IMPLEMENTED")
+		return metService.GetProdMetService()
 	}
 	return nil
 }

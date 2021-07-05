@@ -52,3 +52,10 @@ func GetDevMetService() domainServices.IMetService {
 		dataTransmitter: devDataTransmitter{},
 	}
 }
+
+func GetProdMetService() domainServices.IMetService {
+	return HavvarselMetService{
+		authenticator:   prodAuthenticator{},
+		dataTransmitter: prodDataTransmitter{},
+	}
+}
