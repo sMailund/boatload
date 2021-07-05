@@ -16,13 +16,13 @@ type seriesHeader struct {
 }
 
 type headerId struct {
-	GliderId  string `json:"gliderID"`
-	Parameter string `json:"parameter"`
+	GliderId  string `json:"gliderID"`  // unique id for research vessel (e.g. association initials + _ + vessel name)
+	Parameter string `json:"parameter"` // what has been measured (e.g. "temperature")
 }
 
 type headerExtra struct {
-	Source string `json:"source"`
-	Name   string `json:"name"`
+	Source string `json:"source"` // name of association contributing data
+	Name   string `json:"name"`   // name of vessel
 }
 
 type seriesObservation struct {
@@ -32,13 +32,13 @@ type seriesObservation struct {
 
 type observationBody struct {
 	Pos    observationPosition `json:"pos"`
-	Value  string              `json:"value"`
+	Value  string              `json:"value"` // the measured value (TODO data type?)
 	QcFlag string              `json:"qc_flag"`
 }
 
 type observationPosition struct {
 	Lon    string `json:"lon"` // TODO figure out correct datatype
 	Lat    string `json:"lat"`
-	Depth  string `json:"depth"`
+	Depth  string `json:"depth"` // depth of measurement expressed in meters
 	QcFlag string `json:"qc_flag"`
 }
