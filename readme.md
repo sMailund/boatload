@@ -1,6 +1,8 @@
 # boatload
 > maritime meteorological research data uploader
 
+**please refer to [organization page](https://github.com/boten-clara/boatload) for update and maintained version** 
+
 Tool for uploading maritime meteorological research data 
 from research vessels to the `havvarsel-frost.met.no` API.
 
